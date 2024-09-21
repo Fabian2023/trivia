@@ -1,0 +1,43 @@
+{
+    "preguntas": [
+      {
+        "pregunta": "¿Cuántas y cuáles son las áreas clasificadas?",
+        "opciones": [
+          "Son 2 .- Clase 1: gases inflamables; Clase 2: Fibras Combustibles.",
+          "Son 4.- Clase 1: gases inflamables, Clase 2: vapores inflamables, Clase 3: Fibras combustibles, Clase 4: polvos combustibles.",
+          "Son 3.- Clase 1: gases y vapores inflamables, Clase 2: Polvos combustibles, Clase 3: Fibras combustibles."
+        ],
+        "respuesta_correcta": 2
+      },
+      {
+        "pregunta": "¿Según la IEC, cuáles son las áreas clasificadas?",
+        "opciones": [
+          "Zona 1, Zona 2, Zona 20, Zona 21",
+          "Zona 0, Zona 1, Zona 2, Zona 20, Zona 21, Zona 22",
+          "Zona 1, Zona 2, Zona 3, Zona 20, Zona 21"
+        ],
+        "respuesta_correcta": 1
+      },
+      {
+        "pregunta": "¿Cuáles de los siguientes productos son oferta de Killark?",
+        "opciones": [
+          "Fitings",
+          "Iluminación",
+          "Receptáculos y clavijas",
+          "Gabinetes",
+          "Todas las anteriores"
+        ],
+        "respuesta_correcta": 4
+      },
+      {
+        "pregunta": "¿Qué es un área clasificada?",
+        "opciones": [
+          "Son aquellas áreas que contienen vapores, líquidos y/o gases inflamables, polvos y fibras combustibles, que pueden causar fuego o explosiones si se someten a una fuente de ignición.",
+          "Son áreas que contienen únicamente gases inflamables que pueden causar fuego o explosiones si se someten a una fuente de ignición.",
+          "Son áreas que contienen únicamente polvos y fibras inflamables que pueden causar fuego o explosiones si se someten a una fuente de ignición."
+        ],
+        "respuesta_correcta": 0
+      }
+    ]
+  }
+  
