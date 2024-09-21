@@ -4,7 +4,7 @@ import fondopre from "../images/JUEGO _ SELECCIÓN RTA.png";
 import respuesta from "../images/JUEGO _ RTA CORRECTA.png";
 import cierre from "../images/Cierre 3.mp4";
 
-const Preguntas = () => {
+const Questions = () => {
   const [isRespuesta, setIsRespuesta] = useState(false);
   const [mostrarVideo, setMostrarVideo] = useState(false);
   const navigate = useNavigate();
@@ -53,4 +53,4 @@ const Preguntas = () => {
   );
 };
 
-export default Preguntas;
+export default Questions;
