@@ -1,61 +1,115 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import fondopre from "../images/JUEGO _ SELECCIÓN RTA.png";
-import respuesta from "../images/JUEGO _ RTA CORRECTA.png";
-import cierre from "../images/Cierre 3.mp4";
-import fondo from "../images/fondo.png"; // Imagen de fondo fija
+import fondopreg from "../images/JUEGO _ SELECCIÓN RTA .png";
+import KanitFont from "../fonts/Kanit-Regular.ttf";
+import preguntasData from '../preguntas.json';
+import a from "../images/A.png";
+import b from "../images/B.png";
+import c from "../images/C.png";
 
 const Questions = () => {
-  const [isRespuesta, setIsRespuesta] = useState(false);
-  const [mostrarVideo, setMostrarVideo] = useState(false);
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [selectedOption, setSelectedOption] = useState(null);
+  const [hasAnswered, setHasAnswered] = useState(false);
+  const [questions, setQuestions] = useState([]);
+  const [score, setScore] = useState(0); // Para el puntaje
   const navigate = useNavigate();
 
-  const handleClick = () => {
-    setIsRespuesta(true);
-    setTimeout(() => {
-      setIsRespuesta(false);
-      setMostrarVideo(true);
-    }, 4000); // Muestra la respuesta durante 4 segundos
+  useEffect(() => {
+    loadQuestions();
+  }, []);
+
+  const loadQuestions = () => {
+    const shuffledQuestions = preguntasData.preguntas
+      .sort(() => Math.random() - 0.5)
+      .slice(0, 5);
+      
+    setQuestions(shuffledQuestions);
+    setCurrentQuestionIndex(0);
+    setScore(0); // Reiniciar puntaje
+    setSelectedOption(null);
+    setHasAnswered(false);
   };
 
-  useEffect(() => {
-    if (mostrarVideo) {
-      const timer = setTimeout(() => {
-        navigate('/'); // Redirige después de 4 segundos
-      }, 4000); // Espera 4 segundos antes de redirigir
+  const currentQuestion = questions[currentQuestionIndex];
 
-      return () => clearTimeout(timer); // Limpia el timer al desmontar
+  const handleOptionClick = (index) => {
+    setSelectedOption(index);
+    setHasAnswered(true);
+
+    // Aumentar puntaje si la respuesta es correcta
+    if (index === currentQuestion.respuesta_correcta) {
+      setScore((prev) => prev + 10);
     }
-  }, [mostrarVideo, navigate]);
+
+    setTimeout(() => {
+      setSelectedOption(null);
+      setHasAnswered(false);
+
+      // Avanzar al siguiente índice de pregunta
+      if (currentQuestionIndex + 1 < questions.length) {
+        setCurrentQuestionIndex((prev) => prev + 1);
+      } else {
+        // Navegar a Results al finalizar las preguntas
+        navigate('/results', { state: { score } });
+      }
+    }, 2000);
+  };
+
+  const letterImages = [a, b, c];
 
   return (
     <div className="relative w-full h-screen">
-      {/* Imagen de fondo fija */}
+      <style>
+        {`
+          @font-face {
+            font-family: 'Kanit';
+            src: url(${KanitFont}) format('truetype');
+            font-weight: normal;
+            font-style: normal;
+          }
+        `}
+      </style>
+
       <img
-        src={fondo} 
-        alt="Fondo fijo"
-        className="absolute top-0 left-0 w-full h-full object-cover z-0"
+        src={fondopreg}
+        alt="Fondo de preguntas"
+        className="absolute inset-0 w-full h-full object-cover"
       />
 
-      {!mostrarVideo ? (
-        <img
-          src={isRespuesta ? respuesta : fondopre} 
-          alt="Fondo"
-          className="absolute top-0 left-0 w-full h-full object-cover z-10"
-        />
-      ) : (
-        <video
-          src={cierre}
-          autoPlay
-          className="absolute top-0 left-0 w-full h-full object-cover z-10"
-        />
-      )}
+      <div className="relative z-10 flex flex-col items-center justify-center h-full">
+        {currentQuestion && (
+          <>
+            <div className="pregunta bg-[#FAC224]/70 w-[872px] h-[350px] mt-[258px] rounded-3xl flex items-center justify-center mb-40 overflow-hidden">
+              <p className="text-white text-7xl ml-6 text-center" style={{ fontFamily: 'Kanit' }}>
+                {currentQuestion.pregunta}
+              </p>
+            </div>
 
-      <div
-        className="absolute top-[1000px] left-32 w-[820px] h-[650px] opacity-50 flex justify-center items-center cursor-pointer z-20"
-        onClick={handleClick}
-      >
-        {/* Puedes agregar contenido dentro del div si es necesario */}
+            {currentQuestion.opciones.map((opcion, index) => {
+              const isCorrect = index === currentQuestion.respuesta_correcta;
+              const isSelected = selectedOption === index;
+
+              const bgColor = hasAnswered && isCorrect ? 'bg-green-500' : 'bg-[#FAC224]/70';
+
+              return (
+                <div
+                  key={index}
+                  className={`${bgColor} w-[872px] mb-14 h-[175px] rounded-3xl flex items-center cursor-pointer overflow-hidden px-6`}
+                  onClick={() => handleOptionClick(index)}
+                >
+                  <img src={letterImages[index]} alt={`Opción ${index}`} className="w-10 h-12 mr-4" />
+                  <p className="text-white text-4xl ml-6 text-left" style={{ overflowWrap: 'break-word', fontFamily: 'Kanit' }}>
+                    {opcion}
+                  </p>
+                  {isCorrect && isSelected && (
+                    <span className="text-white ml-4">✓</span>
+                  )}
+                </div>
+              );
+            })}
+          </>
+        )}
       </div>
     </div>
   );
