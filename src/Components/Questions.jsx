@@ -90,7 +90,7 @@ const Questions = () => {
               const isCorrect = index === currentQuestion.respuesta_correcta;
               const isSelected = selectedOption === index;
 
-              const bgColor = hasAnswered && isCorrect ? 'bg-green-500' : 'bg-[#FAC224]/70';
+              const bgColor = hasAnswered && isCorrect ? 'bg-[#3DFA24]' : 'bg-[#FAC224]/70';
 
               return (
                 <div
