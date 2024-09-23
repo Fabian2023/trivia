@@ -20,7 +20,7 @@ const Registro = () => {
         } 
         const userParticipation  = await checkInServiceJs.getUserParticipation({userCode:inputValue})
 
-        console.log(userParticipation.points);
+        console.log(userParticipation?.points);
 
         localStorage.setItem("userCode", inputValue);
         

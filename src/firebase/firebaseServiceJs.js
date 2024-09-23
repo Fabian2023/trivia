@@ -53,6 +53,7 @@ export class CheckInServiceJs {
 	];
 
 	constructor(firebaseDB) {
+		this.firebaseDB = firebaseDB
 		this.participationCollection = collection(firebaseDB, `event/${this.eventId}/usersActivityIntoExperiences`);
 		this.attendeesCollection = collection(firebaseDB, `/${this.eventId}_event_attendees`);
 	}
@@ -83,17 +84,18 @@ export class CheckInServiceJs {
 
 		const previousParticipation = await this.getUserParticipation({ userCode });
 
+
 		if (previousParticipation) {
 			const docId = previousParticipation.id;
 			const userExperienceRef = doc(this.firebaseDB, `event/${this.eventId}/usersActivityIntoExperiences`, docId);
 
-			const newPoints = points === undefined ? 0 : points;
+			const newPoints = points === undefined ? previousParticipation.points : points;
 
 			const newParticipationDateList = [...previousParticipation.participationDateList];
 			if (newParticipation) {
 				newParticipationDateList.push(checkInAt);
 			}
-
+			
 			await updateDoc(userExperienceRef, { points: newPoints, updateAt, participationDateList: newParticipationDateList });
 
 			return docId;
