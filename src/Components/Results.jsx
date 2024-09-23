@@ -16,7 +16,7 @@ const Results = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 500); // Simula el montaje completo del componente
+    }, 2000); // Simula el montaje completo del componente
 
     return () => clearTimeout(timer);
   }, []);
