@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import fondopreg from "../images/JUEGO _ SELECCIÓN RTA .png";
 import KanitFont from "../fonts/Kanit-Regular.ttf";
@@ -12,7 +12,7 @@ const Questions = () => {
   const [selectedOption, setSelectedOption] = useState(null);
   const [hasAnswered, setHasAnswered] = useState(false);
   const [questions, setQuestions] = useState([]);
-  const [score, setScore] = useState(0); // Para el puntaje
+  const score = useRef(0); // Para el puntaje
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -26,7 +26,7 @@ const Questions = () => {
       
     setQuestions(shuffledQuestions);
     setCurrentQuestionIndex(0);
-    setScore(0); // Reiniciar puntaje
+    //setScore(0); // Reiniciar puntaje
     setSelectedOption(null);
     setHasAnswered(false);
   };
@@ -37,9 +37,16 @@ const Questions = () => {
     setSelectedOption(index);
     setHasAnswered(true);
 
+    console.log("antes",index,score);
+    console.log(index === currentQuestion.respuesta_correcta);
+    
+    
+
     // Aumentar puntaje si la respuesta es correcta
     if (index === currentQuestion.respuesta_correcta) {
-      setScore((prev) => prev + 10);
+      score.current= score.current + 10
+      console.log(score.current);
+      
     }
 
     setTimeout(() => {
@@ -51,7 +58,7 @@ const Questions = () => {
         setCurrentQuestionIndex((prev) => prev + 1);
       } else {
         // Navegar a Results al finalizar las preguntas
-        navigate('/results', { state: { score } });
+        navigate('/results', { state: { score:score.current } });
       }
     }, 2000);
   };
