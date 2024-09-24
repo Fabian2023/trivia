@@ -44,7 +44,7 @@ const Results = () => {
     if (previewParticipation.participationDateList.length === 1) {
       checkInServiceJs.saveUserParticipation({
         userCode,
-        points: Math.min(previewParticipation.points + score, 100),
+        points:previewParticipation.points + score
       });
     }
   };

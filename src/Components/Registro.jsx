@@ -14,9 +14,9 @@ const Registro = () => {
   const handleDivClick =async () => {
     const attending  = await   checkInServiceJs.getAttendeeByUserCode({userCode:inputValue})
     console.log(attending);
-     //llamarlo para validar el cod
+    
      if   (attending === null) {
-         return setError(true); // Muestra el error si el código es incorrecto
+         return setError(true); 
         } 
         const userParticipation  = await checkInServiceJs.getUserParticipation({userCode:inputValue})
 
